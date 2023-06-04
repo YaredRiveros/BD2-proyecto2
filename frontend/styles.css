@@ -1,0 +1,36 @@
+.inline{
+    display: flex;
+}
+
+.in{
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#topk{
+    height: 15px;
+}
+
+#submit{
+    height: 20px;
+}
+
+.in-query{
+    width: 500px;
+    height: 55px;
+}
+
+.muestra{
+    display: flex;
+}
+
+.tablaa{
+    display: inline-block;
+    margin-right: 100px;
+    border: 1px solid black;
+    padding : 10px;
+}
+
+.resultado{
+    display: block;
+}
