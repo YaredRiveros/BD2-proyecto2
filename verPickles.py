@@ -1,18 +1,19 @@
 import pickle
 import os
 
-with open('inverted_index/aaron.pkl', 'rb') as file:
-    data = pickle.load(file)
+# #iterar todos los archivos en inverted_index e imprimir pares (tweet, tf-idf) para cada término
+# for file_name in os.listdir("inverted_index"):
+#     file_path = os.path.join("inverted_index", file_name)
+#     with open(file_path, "rb") as f:
+#         inverted_index = pickle.load(f)
+#     print(f"Term: {file_name[:-4]}")
+#     print("Inverted index:")
+#     for tweet, tfidf_value in inverted_index:
+#         print(f"{tweet}: {tfidf_value}")
+#     print()
 
-print(data)
+#Imprimir el vectorizador en el archivo vectorizer.pkl
+with open("vectorizer.pkl", "rb") as f:
+    vectorizer = pickle.load(f)
 
-# Buscar en todos los archivos de en 'inverted_index' los tweets que tengan como segundo elemento de la tupla valor
-# mayor a 0
-
-# for file in os.listdir('inverted_index'):
-#     with open(f'inverted_index/{file}', 'rb') as file:
-#         data = pickle.load(file)
-#         for tweet in data:
-#             if tweet[1] > 0:
-#                 print(tweet)
-
+print(vectorizer)
