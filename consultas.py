@@ -44,17 +44,15 @@ def calculate_similarity(query):
                 
                 # Agregar los pares tweet-similitud al diccionario
                 for tweet, similarity in zip(tweets, similarity_scores.flatten()):
-                    if tweet in dictionary:
-                        dictionary[tweet].append(similarity)
-                    else:
-                        dictionary[tweet] = [similarity]
+                    if tweet not in dictionary:
+                        dictionary[tweet] = similarity
     
     return dictionary
 
 # Ejemplo de uso
-query = "I'have an accident"
+query = "I love my dog"
 similarity_scores = calculate_similarity(query)
-print(similarity_scores)
+#print(similarity_scores)
 
 
 def top_k_similar_tweets(similarity_scores, k):
@@ -68,7 +66,7 @@ def top_k_similar_tweets(similarity_scores, k):
 
 
 
-k = 3
+k = 100
 top_k = top_k_similar_tweets(similarity_scores, k)
 cont = 1
 print(f"Top {k} Similitudes:")
@@ -76,5 +74,3 @@ for tweet, similarity in top_k.items():
     print(f"{cont}. Tweet: {tweet} - Similitud: {similarity}")
     cont += 1
     print("\n")
-
-
