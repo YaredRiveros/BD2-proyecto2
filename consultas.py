@@ -5,15 +5,6 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
 
-# Cargar los archivos de términos
-for file_name in os.listdir("inverted_index"):
-    file_path = os.path.join("inverted_index", file_name)
-    if os.path.isfile(file_path):
-        with open(file_path, "rb") as f:
-            inverted_index = pickle.load(f)
-            #print(f"File: {file_name}, Data: {inverted_index}")
-
-
 def calculate_similarity(query):
     # Crear el vectorizador TF-IDF
     vectorizer = TfidfVectorizer()
@@ -49,28 +40,45 @@ def calculate_similarity(query):
     
     return dictionary
 
+
+def load_inverted_index(query):
+    inverted_index_files = set()
+    
+    # Obtener las características (términos) de la consulta
+    vectorizer = TfidfVectorizer()
+    query_vector = vectorizer.fit_transform([query])
+    features = vectorizer.get_feature_names_out()
+    
+    # Obtener los nombres de los archivos correspondientes a los términos de la consulta
+    for term in features:
+        file_path = os.path.join("inverted_index", f"{term}.pkl")
+        if os.path.exists(file_path):
+            inverted_index_files.add(file_path)
+    
+    # Cargar los archivos de términos correspondientes
+    inverted_index = {}
+    for file_path in inverted_index_files:
+        with open(file_path, "rb") as f:
+            term_index = pickle.load(f)
+            inverted_index.update(term_index)
+    
+    return inverted_index
+
+
 # Ejemplo de uso
 query = "I love my dog"
+inverted_index = load_inverted_index(query)
 similarity_scores = calculate_similarity(query)
-#print(similarity_scores)
 
-
-def top_k_similar_tweets(similarity_scores, k):
-    # Ordenar el diccionario en base a los values en orden descendente
-    similarity_scores = sorted(similarity_scores.items(), key=lambda x: x[1], reverse=True)
-
-    # Obtener diccionario con los k elementos con mayor similitud
-    top_k = dict(similarity_scores[:k])
-
-    return top_k
-
-
-
+# Obtener los tweets con mayor similitud
 k = 100
-top_k = top_k_similar_tweets(similarity_scores, k)
+top_k = sorted(similarity_scores.items(), key=lambda x: x[1], reverse=True)[:k]
+
+# Imprimir los resultados
+k = 100
 cont = 1
 print(f"Top {k} Similitudes:")
-for tweet, similarity in top_k.items():
+for tweet, similarity in top_k:
     print(f"{cont}. Tweet: {tweet} - Similitud: {similarity}")
     cont += 1
     print("\n")
