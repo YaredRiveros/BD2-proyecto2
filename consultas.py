@@ -4,7 +4,6 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-
 def calculate_similarity(query):
     # Crear el vectorizador TF-IDF
     vectorizer = TfidfVectorizer()
@@ -65,20 +64,21 @@ def load_inverted_index(query):
     return inverted_index
 
 
-# Ejemplo de uso
-query = "I love my dog"
-inverted_index = load_inverted_index(query)
-similarity_scores = calculate_similarity(query)
+# # Ejemplo de uso
+# query = "I love my dog"
+# inverted_index = load_inverted_index(query)
+# similarity_scores = calculate_similarity(query)
 
-# Obtener los tweets con mayor similitud
-k = 100
-top_k = sorted(similarity_scores.items(), key=lambda x: x[1], reverse=True)[:k]
+# # Obtener los tweets con mayor similitud
+# k = 100
+# top_k = sorted(similarity_scores.items(), key=lambda x: x[1], reverse=True)[:k]
 
-# Imprimir los resultados
-k = 100
-cont = 1
-print(f"Top {k} Similitudes:")
-for tweet, similarity in top_k:
-    print(f"{cont}. Tweet: {tweet} - Similitud: {similarity}")
-    cont += 1
-    print("\n")
+# print(top_k)
+# # Imprimir los resultados
+# k = 100
+# cont = 1
+# print(f"Top {k} Similitudes:")
+# for tweet, similarity in top_k:
+#     print(f"{cont}. Tweet: {tweet} - Similitud: {similarity}")
+#     cont += 1
+#     print("\n")
