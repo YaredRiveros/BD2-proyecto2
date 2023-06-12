@@ -11,6 +11,8 @@ conn = psycopg2.connect(
     password="conejowas12345"
 )
 
+cur = conn.cursor()
+
 def search_tweets():
     query = query_entry.get()
     num_documents = int(num_docs_entry.get())
@@ -23,7 +25,6 @@ def search_tweets():
     end_time_1 = time.time()
 
     # PostgreSQL
-    cur = conn.cursor()
     query = query.split(" ")
     query = '|'.join(query)
 
@@ -37,8 +38,6 @@ def search_tweets():
     """)
     result_2 = cur.fetchall()
     end_time_2 = time.time()
-    cur.close()
-    conn.close()
 
     result_text_1.config(state=tk.NORMAL)
     result_text_1.delete("1.0", tk.END)
@@ -117,5 +116,8 @@ time_label_2.pack()
 
 window.mainloop()
 
+
+cur.close()
+conn.close()
 
 
