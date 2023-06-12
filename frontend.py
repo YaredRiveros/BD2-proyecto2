@@ -1,6 +1,15 @@
 import tkinter as tk
 import time
 from consultas import calculate_similarity, load_inverted_index
+import psycopg2
+
+# Instanciar antes la base de datos y tablas (modificar datos de conexion)
+conn = psycopg2.connect(
+    host="localhost", 
+    database="postgres", 
+    user="postgres", 
+    password="conejowas12345"
+)
 
 def search_tweets():
     query = query_entry.get()
@@ -10,14 +19,26 @@ def search_tweets():
     start_time_1 = time.time()
     inverted_index = load_inverted_index(query)
     similarity_scores = calculate_similarity(query)
-    top_k = sorted(similarity_scores.items(), key=lambda x: x[1], reverse=True)[:num_documents]
-    result_1 = top_k
+    result_1 = sorted(similarity_scores.items(), key=lambda x: x[1], reverse=True)[:num_documents]
     end_time_1 = time.time()
 
     # PostgreSQL
+    cur = conn.cursor()
+    query = query.split(" ")
+    query = '|'.join(query)
+
     start_time_2 = time.time()
-    result_2 = top_k # Falta conectar con PostgreSQL
+    cur.execute(f"""
+        SELECT id, text, ts_rank_cd(full_text, query) AS rank 
+        FROM tweets, to_tsquery('english', '{query}') query 
+        WHERE query @@ full_text 
+        ORDER BY rank ASC 
+        LIMIT {num_documents}
+    """)
+    result_2 = cur.fetchall()
     end_time_2 = time.time()
+    cur.close()
+    conn.close()
 
     result_text_1.config(state=tk.NORMAL)
     result_text_1.delete("1.0", tk.END)
@@ -32,14 +53,14 @@ def search_tweets():
     result_text_2.config(state=tk.NORMAL)
     result_text_2.delete("1.0", tk.END)
     count = 1
-    for tweet, similarity in result_2:
-        item = f"{count}. Tweet: {tweet} - Similitud: {round(similarity, 4)}\n"
+    for row in result_2:
+        item = f"{count}. Tweet: {row[1]}\n"
         result_text_2.insert(tk.END, item)
         count += 1
     result_text_2.config(state=tk.DISABLED)
 
-    time_label_1.config(text="Execution time: {:.2f} seconds".format(end_time_1 - start_time_1))
-    time_label_2.config(text="Execution time: {:.2f} seconds".format(end_time_2 - start_time_2))
+    time_label_1.config(text="Execution time: {:.4f} seconds".format(end_time_1 - start_time_1))
+    time_label_2.config(text="Execution time: {:.4f} seconds".format(end_time_2 - start_time_2))
 
 
 
