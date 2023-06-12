@@ -36,7 +36,8 @@ LIMIT 100;
 -- Index with GIN
 CREATE INDEX tweets_search_idx ON tweets USING gin(text gin_trgm_ops);
 
-SELECT * FROM tweets
-WHERE text ILIKE '%dog%' -- 
+SELECT id, text, ts_rank(full_text, query) AS rank
+FROM tweets, to_tsquery('english', 'I | love | my | dog') query
+WHERE query @@ full_text
+ORDER BY rank DESC
 LIMIT 100;
-
