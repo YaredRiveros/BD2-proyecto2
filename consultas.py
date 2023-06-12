@@ -66,7 +66,7 @@ def load_inverted_index(query):
 
 
 # Ejemplo de uso
-query = "I love my dog"
+query = "No"
 inverted_index = load_inverted_index(query)
 similarity_scores = calculate_similarity(query)
 
