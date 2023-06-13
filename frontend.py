@@ -2,6 +2,7 @@ import tkinter as tk
 import time
 from consultas import calculate_similarity, load_inverted_index
 import psycopg2
+import re
 
 # Instanciar antes la base de datos y tablas (modificar datos de conexion)
 conn = psycopg2.connect(
@@ -27,18 +28,23 @@ def search_tweets():
     # PostgreSQL
     query = query.split(" ")
     query = '|'.join(query)
+    result_2 = []
 
     start_time_2 = time.time()
-    cur.execute(f"""
-        SELECT id, text, ts_rank_cd(full_text, query) AS rank 
-        FROM tweets, to_tsquery('english', '{query}') query 
-        WHERE query @@ full_text 
-        ORDER BY rank ASC 
-        LIMIT {num_documents}
-    """)
-    result_2 = cur.fetchall()
+    try:
+        cur.execute(f"""
+            SELECT id, text, ts_rank_cd(full_text, query) AS rank 
+            FROM tweets, to_tsquery('english', '{query}') query 
+            WHERE query @@ full_text 
+            ORDER BY rank ASC 
+            LIMIT {num_documents}
+        """)
+        result_2 = cur.fetchall()
+    except psycopg2.Error as e:
+        conn.rollback()
+        print("Error occurred:", e)
+        
     end_time_2 = time.time()
-
     result_text_1.config(state=tk.NORMAL)
     result_text_1.delete("1.0", tk.END)
     count = 1
@@ -75,7 +81,7 @@ query_frame.pack()
 query_label = tk.Label(query_frame, text="Query:")
 query_label.pack(side=tk.LEFT)
 
-query_entry = tk.Entry(query_frame)
+query_entry = tk.Entry(query_frame, width=60)
 query_entry.pack(fill=tk.X, padx=5)
 
 
@@ -85,7 +91,7 @@ num_docs_frame.pack()
 num_docs_label = tk.Label(num_docs_frame, text="Documents Retrieved (Top K):")
 num_docs_label.pack(side=tk.LEFT)
 
-num_docs_entry = tk.Entry(num_docs_frame)
+num_docs_entry = tk.Entry(num_docs_frame, width=8)
 num_docs_entry.pack(fill=tk.X, padx=5)
 
 search_button = tk.Button(window, text="Search", command=search_tweets)
