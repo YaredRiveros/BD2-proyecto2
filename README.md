@@ -53,7 +53,7 @@ Se realizó un análisis comparativo entre la búsqueda de texto completo con í
 
 ![imagen](./comparacion_t.png)
 
-Se observa siempre una mayor tiempo de búsqueda a nuestra implementación. Sin embargo, nuestra implementación consigue con mayor precisión los tweets a las que pertenecen las palabras ingresadas en la query.
+Se observa siempre una mayor tiempo de búsqueda a nuestra implementación. Sin embargo, en la práctica nuestra implementación consigue con mayor precisión los tweets a las que pertenecen las palabras ingresadas en la query. Ello se puede evidenciar en la imágen adjunta en la explicación de la GUI.
 
 ### GUI
 Se utilizó la interfaz tkinter de Python para crear la GUI. En esta interfaz, se puede ingresar la consulta y el top k que se quiere. De este modo, se obtiene una lista de tweets ordenados de acuerdo a su puntaje. Para esto, se utilizó el archivo consultas.py. Para ejecutar la GUI, se debe ejecutar el archivo frontend.py.
