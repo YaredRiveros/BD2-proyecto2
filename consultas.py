@@ -62,23 +62,3 @@ def load_inverted_index(query):
             inverted_index.update(term_index)
     
     return inverted_index
-
-
-# # Ejemplo de uso
-# query = "I love my dog"
-# inverted_index = load_inverted_index(query)
-# similarity_scores = calculate_similarity(query)
-
-# # Obtener los tweets con mayor similitud
-# k = 100
-# top_k = sorted(similarity_scores.items(), key=lambda x: x[1], reverse=True)[:k]
-
-# print(top_k)
-# # Imprimir los resultados
-# k = 100
-# cont = 1
-# print(f"Top {k} Similitudes:")
-# for tweet, similarity in top_k:
-#     print(f"{cont}. Tweet: {tweet} - Similitud: {similarity}")
-#     cont += 1
-#     print("\n")

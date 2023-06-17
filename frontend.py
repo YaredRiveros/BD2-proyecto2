@@ -6,10 +6,11 @@ import re
 
 # Instanciar antes la base de datos y tablas (modificar datos de conexion)
 conn = psycopg2.connect(
-    host="localhost", 
-    database="postgres", 
+    host="localhost",
+    database="bd2", 
     user="postgres", 
-    password="conejowas12345"
+    port = 5432,
+    password="1234"
 )
 
 cur = conn.cursor()
