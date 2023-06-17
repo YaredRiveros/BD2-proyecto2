@@ -53,7 +53,7 @@ Se realizó un análisis comparativo entre la búsqueda de texto completo con í
 
 ![imagen](./comparacion_t.png)
 
-Se observa siempre una mayor tiempo de búsqueda a nuestra implementación. Esto se debe a que la búsqueda con índices GIN es una búsqueda de texto completo, mientras que la búsqueda con índices invertidos es una búsqueda de texto parcial. Por lo tanto, la búsqueda de texto completo con índices GIN es más rápida que la búsqueda de texto completo con índices invertidos.
+Se observa siempre una mayor tiempo de búsqueda a nuestra implementación. Sin embargo, nuestra implementación consigue con mayor precisión los tweets a las que pertenecen las palabras ingresadas en la query.
 
 ### GUI
 Se utilizó la interfaz tkinter de Python para crear la GUI. En esta interfaz, se puede ingresar la consulta y el top k que se quiere. De este modo, se obtiene una lista de tweets ordenados de acuerdo a su puntaje. Para esto, se utilizó el archivo consultas.py. Para ejecutar la GUI, se debe ejecutar el archivo frontend.py.
