@@ -2,6 +2,8 @@
 
 Proyecto 2 del curso de Base de datos 2 en UTEC
 
+Link al video explicativo: https://drive.google.com/file/d/1T9Iha_RKYqUlFjM-wTmYihG8CqXj7B2r/view?usp=sharing
+
 # Integrantes
 
 * Yared Riveros Rodriguez
